@@ -1,0 +1,24 @@
+{
+  "name": "lipper",
+  "version": "0.1.0",
+  "description": "轻量的涟漪效果库",
+  "main": "./dist/lipper.min.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tt-ghost/lipper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tt-ghost/lipper/issues"
+  },
+  "homepage": "https://github.com/tt-ghost/lipper#readme",
+  "devDependencies": {
+    "uglifyjs-webpack-plugin": "^1.1.4",
+    "webpack": "^3.10.0"
+  }
+}
