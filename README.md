@@ -34,6 +34,7 @@ lipper.init()
 
 ## 接口方法
 
+- `lipper.init(option)`，初始化涟漪效果，参数见`option`说明
 - `lipper.put(option)`，设置涟漪参数，参数与`init`方法一样
 - `lipper.reset()`，重置为默认
 - `lipper.destroy()`，取消涟漪效果
