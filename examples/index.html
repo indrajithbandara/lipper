@@ -47,17 +47,11 @@
 <body>
   <h2>lipper 轻量的涟漪效果库</h2>
   <div data-lipper>
-    <button id='btn' data-lipper>点击产生涟漪</button>
+    <button data-lipper>点击产生涟漪</button>
     <div class='content'>
-      <!-- <div data-lipper class='content-inner'</div> -->
 
       <h3>用法：给需要产生涟漪效果的元素加上自定义属性<code>data-lipper</code></h3>
       <pre>
-        var btn = document.querySelector('#btn')
-        btn.addEventListener('click', function (e) {
-          e.stopPropagation()
-        })
-        console.log(lipper)
         lipper.init({
           duration: 1.5,
           dataset: 'lipper',
@@ -69,11 +63,6 @@
     </div>
   </div>
   <script>
-    var btn = document.querySelector('#btn')
-    btn.addEventListener('click', function (e) {
-      e.stopPropagation()
-    })
-    console.log(lipper)
     lipper.init({
       duration: 1.5,
       dataset: 'lipper',

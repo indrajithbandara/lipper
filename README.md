@@ -26,10 +26,11 @@ lipper.init()
 
 |参数名|默认值|说明|
 |-----|-----|---|
-|duration|`1.5`，单位秒|无|
-|dataset|给需要添加涟漪效果的节点属性 默认 data-lipper|无|
-|radius|涟漪扩散半径|无|
-|bgcolor|涟漪效果背景颜色|无|
+|duration|`1.5`|单位秒|
+|dataset| `lipper`|给需要添加涟漪效果的节点属性 `data-lipper`|
+|radius|`50`|涟漪扩散半径|
+|bgcolor|`rgba(250, 250, 250, .5)`|涟漪效果背景颜色|
+|zindex|`1000`，|涟漪层的 `z-index`|
 
 
 ## 接口方法
