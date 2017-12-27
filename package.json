@@ -1,6 +1,6 @@
 {
   "name": "lipper",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "轻量的涟漪效果库",
   "main": "./dist/lipper.min.js",
   "scripts": {
@@ -10,9 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/tt-ghost/lipper.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": ["lipper", "ripple"],
+  "author": "@TT <ttghost@126.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/tt-ghost/lipper/issues"
   },

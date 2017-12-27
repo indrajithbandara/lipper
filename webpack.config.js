@@ -6,7 +6,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'lipper.min.js',
-    // library: 'lipper',
+    library: 'lipper',
     libraryTarget: 'umd'
   },
   plugins: [

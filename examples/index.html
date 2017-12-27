@@ -7,40 +7,78 @@
   <style>
     body{
       height: 300px;
-      background: #2492cc;
+      background: #fff;
       margin: 0;
+      padding: 0 100px;
     }
     div{
-      height: 100px;
-      background: #9a9;
+      min-height: 100px;
+      background: #2492cc;
+    }
+    h2{
+      margin:0;
+      padding: 0 20px;
     }
     button{
       height: 40px;
-      width: 100px;
-      background-color:#ece5ae;
+      background-color:#18775d;
       border: none;
       transition: .3s ease all;
       border-radius: 3px;
+      margin: 30px;
+      color:#fff;
+      font-size: 16px;
+      padding: 10px 20px;
     }
     button:active, button:focus{
       border: none;
       outline: none;
     }
     button:active{
-      background-color:#dcd59d;
+      background-color:#115f49;
+    }
+    .content{
+      padding: 20px;
+      color:#fff;
+      background-color:#18775d;
     }
   </style>
 </head>
 <body>
   <h2>lipper 轻量的涟漪效果库</h2>
-  <div data-shadow>
-    <button data-shadow>按钮</button>
+  <div data-lipper>
+    <button id='btn' data-lipper>点击产生涟漪</button>
+    <div class='content'>
+      <!-- <div data-lipper class='content-inner'</div> -->
+
+      <h3>用法：给需要产生涟漪效果的元素加上自定义属性<code>data-lipper</code></h3>
+      <pre>
+        var btn = document.querySelector('#btn')
+        btn.addEventListener('click', function (e) {
+          e.stopPropagation()
+        })
+        console.log(lipper)
+        lipper.init({
+          duration: 1.5,
+          dataset: 'lipper',
+          radius: 50,
+          zindex: 1000,
+          // bgcolor: 'rgba(255, 0, 0, .5)'
+        })
+      </pre>
+    </div>
   </div>
   <script>
+    var btn = document.querySelector('#btn')
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation()
+    })
+    console.log(lipper)
     lipper.init({
       duration: 1.5,
-      dataset: 'shadow',
+      dataset: 'lipper',
       radius: 50,
+      zindex: 1000,
       // bgcolor: 'rgba(255, 0, 0, .5)'
     })
   </script>

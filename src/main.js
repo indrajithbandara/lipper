@@ -1,110 +1,134 @@
-  /* 默认配置 */
-  let defaultArgs = {
-    duration: 1.5,
-    dataset: 'shadow',
-    radius: 50,
-    bgcolor: 'rgba(250, 250, 250, .5)'
-  }
-  /* 初始化样式 */
-  let initStyle = `
-    position: absolute;
-    z-index: 1000;
-    pointer-events: none;
-    transform: translate3d(-50%, -50%, 0) scale(0);
-    `
-  let config = {}
+/*
+ * lipper
+ */
 
-  function init (args) {
-    put(args)
-    document.addEventListener('mousedown', mousedown.bind(null, config))
-  }
+/* 默认配置 */
+let defaultArgs = {
+  duration: 1.5,
+  dataset: 'lipper',
+  radius: 50,
+  bgcolor: 'rgba(250, 250, 250, .5)',
+  zindex: 1000
+}
 
-  function destroy () {
-    document.removeEventListener('mousedown', mousedown)
-  }
+/* 缓存正在使用的配置 */
+let config = {}
 
-  /* 修改配置 */
-  function put (args) {
-    for (let i in args) {
-      config[i] = args[i]
-    }
-  }
+/* 基础样式 */
+let baseStyle = `
+  position: absolute;
+  z-index: ${defaultArgs.zindex};
+  pointer-events: none;
+  border-radius: 50%;
+  `
 
-  function reset () {
-    for (let i in defaultArgs) {
-      config[i] = defaultArgs[i]
-    }
-  }
+/* 初始化样式 */
+let initStyle = `
+  ${baseStyle}
+  transform: translate3d(-50%, -50%, 0) scale(0);
+  `
 
-  function mousedown (args, e) {
-    initDOM(args || {}, e)
-  }
+/* 是否初始化过 */
+let inited = false
 
-  function getActiveStyle (args, event) {
-    let target = event.target
-    let duration = args.duration || defaultArgs.duration
-    let radius = args.radius || defaultArgs.radius
-    let bgcolor = args.bgcolor || defaultArgs.bgcolor
-    return `
-      position: absolute;
-      z-index: 1000;
-      pointer-events: none;
-      top: ${event.y - target.offsetTop}px;
-      left: ${event.x - target.offsetLeft}px;
-      height: ${radius * 2}px;
-      width: ${radius * 2}px;
-      border-radius: 50%;
-      background-color: ${bgcolor};
-      opacity: 0;
-      transform: translate3d(-50%, -50%, 0) scale(1);
-      transition: opacity ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms;`
-  }
+/* 缓存绑定的函数 */
+function mousedown (args, e) {
+  initDOM(args || {}, e)
+}
 
-  function initDOM (args, event) {
-    let dataset = args.dataset || defaultArgs.dataset
-    let duration = args.duration || defaultArgs.duration
-    let computedStyle = getComputedStyle(event.target)
-    let position = computedStyle.position
-    let overflow = computedStyle.overflow
-    let target = event.target
-    let datasetShadow = target.dataset[dataset]
+/* 计算涟漪时的样式 */
+function getActiveStyle (args, event) {
+  let target = event.target
+  let duration = args.duration || defaultArgs.duration
+  let radius = args.radius || defaultArgs.radius
+  let bgcolor = args.bgcolor || defaultArgs.bgcolor
+  let rect = target.getBoundingClientRect()
+  return `
+    ${baseStyle}
+    top: ${event.y - rect.top}px;
+    left: ${event.x - rect.left}px;
+    height: ${radius * 2}px;
+    width: ${radius * 2}px;
+    background-color: ${bgcolor};
+    opacity: 0;
+    transform: translate3d(-50%, -50%, 0) scale(1);
+    transition: opacity ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms;`
+}
 
-    if (datasetShadow === '' || datasetShadow === 'true') {
-      event.stopPropagation()
-      target.style.position = 'relative'
-      target.style.overflow = 'hidden'
-      let shadow = getShadow(event.target)
+/* 初始化DOM节点 */
+function initDOM (args, event) {
+  let dataset = args.dataset || defaultArgs.dataset
+  let duration = args.duration || defaultArgs.duration
+  let computedStyle = getComputedStyle(event.target)
+  // TODO 记录原始位置信息，动画结束后需要清除
+  // let cssText = event.target.style.cssText
+  // let originPosition = 
+  // let originOverflow = 
+  let target = event.target
+  let datasetLipper = target.dataset[dataset]
+  if (datasetLipper === '' || datasetLipper === 'true') {
+    event.stopPropagation()
+    target.style.position = 'relative'
+    target.style.overflow = 'hidden'
+    let lipper = getLipperElement(event.target)
+    setTimeout(function () {
+      let activeStyle = getActiveStyle(args, event)
+      lipper.setAttribute('style', activeStyle)
       setTimeout(function () {
-        let activeStyle = getActiveStyle(args, event)
-        shadow.setAttribute('style', activeStyle)
-        setTimeout(function () {
-          initShadow(event, shadow, computedStyle, initStyle)
-        }, duration * 1000)
-      }, 20)
-    }
+        initLipper(event, lipper, computedStyle, initStyle)
+      }, duration * 1000)
+    }, 20)
   }
+}
 
-  function initShadow (event, shadow, computedStyle, initStyle) {
-    shadow.setAttribute('style', initStyle)
-    event.target.removeChild(shadow)
-    if (computedStyle.position !== 'static') {
-      event.target.style.position = computedStyle.position
-    }
-    if (computedStyle.overflow !== '') {
-      event.target.style.overflow = computedStyle.overflow
-    }
+/* 重置配置 */
+function initLipper (event, lipper, computedStyle, initStyle) {
+  lipper.setAttribute('style', initStyle)
+  event.target.removeChild(lipper)
+  event.target.style.position = computedStyle.position || ''
+  event.target.style.overflow = computedStyle.overflow || ''
+}
+
+/* 生成涟漪效果节点并返回 */
+function getLipperElement (container) {
+  let lipper = document.createElement('span')
+  lipper.setAttribute('style', initStyle)
+  container.appendChild(lipper)
+  return lipper
+}
+
+/* 初始化，只应该初始化一次 */
+export function init (args) {
+  if (!inited) {
+    put(config, args)
+    document.addEventListener('mousedown', mousedown.bind(null, config))
+    inited = true
   }
+}
 
-  function getShadow (container) {
-    let shadow = document.createElement('span')
-    shadow.setAttribute('style', initStyle)
-    container.appendChild(shadow)
-    return shadow
+/* 主动销毁特效，全局生效 */
+export function destroy () {
+  document.removeEventListener('mousedown', mousedown)
+  inited = false
+}
+
+/* 修改配置 */
+export function put (config, args) {
+  for (let i in args) {
+    config[i] = args[i]
   }
+}
 
-  export const lipper = {
-    init: init,
-    destroy: destroy,
-    put: put,
-    reset: reset
-  } 
+/* 重置配置 */
+export function reset () {
+  for (let i in defaultArgs) {
+    config[i] = defaultArgs[i]
+  }
+}
+
+export default {
+  init,
+  destroy,
+  put,
+  reset
+}
