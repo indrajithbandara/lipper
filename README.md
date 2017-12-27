@@ -8,11 +8,16 @@
 - `script` 方式引入
 
 ```html
-<scirpt src='./lipper.min.js'></scirpt>
-<scirpt>
-  // 或者
-  lipper.init()
-</scirpt>
+<!doctype html>
+<html>
+  <body>
+    <button data-lipper>给需要涟漪的元素添加 data-lipper 属性试试</button>
+    <scirpt src='./lipper.min.js'></scirpt>
+    <scirpt>
+      lipper.init()
+    </scirpt>
+  </body>
+</html>
 ```
 
 - `ES6` 方式引入
