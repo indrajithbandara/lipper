@@ -7,7 +7,7 @@ let defaultArgs = {
   duration: 1.5,
   dataset: 'lipper',
   radius: 50,
-  bgcolor: 'rgba(250, 250, 250, .5)',
+  color: 'rgba(250, 250, 250, .5)',
   zindex: 1000
 }
 
@@ -32,8 +32,8 @@ let initStyle = `
 let inited = false
 
 /* 缓存绑定的函数 */
-function mousedown (args, e) {
-  initDOM(args || {}, e)
+function mousedown (e) {
+  initDOM(config || {}, e)
 }
 
 /* 计算涟漪时的样式 */
@@ -41,7 +41,7 @@ function getActiveStyle (args, event) {
   let target = event.target
   let duration = args.duration || defaultArgs.duration
   let radius = args.radius || defaultArgs.radius
-  let bgcolor = args.bgcolor || defaultArgs.bgcolor
+  let color = args.color || defaultArgs.color
   let rect = target.getBoundingClientRect()
   return `
     ${baseStyle}
@@ -49,7 +49,7 @@ function getActiveStyle (args, event) {
     left: ${event.x - rect.left}px;
     height: ${radius * 2}px;
     width: ${radius * 2}px;
-    background-color: ${bgcolor};
+    background-color: ${color};
     opacity: 0;
     transform: translate3d(-50%, -50%, 0) scale(1);
     transition: opacity ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms, transform ${args.duration}s cubic-bezier(0.23, 1, 0.32, 1) 0ms;`
@@ -100,9 +100,15 @@ function getLipperElement (container) {
 /* 初始化，只应该初始化一次 */
 export function init (args) {
   if (!inited) {
-    put(config, args)
-    document.addEventListener('mousedown', mousedown.bind(null, config))
+    setConfig(args)
+    document.addEventListener('mousedown', mousedown)
     inited = true
+  }
+}
+
+function setConfig (args) {
+  for (let i in args) {
+    config[i] = args[i]
   }
 }
 
@@ -113,10 +119,10 @@ export function destroy () {
 }
 
 /* 修改配置 */
-export function put (config, args) {
-  for (let i in args) {
-    config[i] = args[i]
-  }
+export function put (args) {
+  setConfig(args)
+  destroy()
+  init()
 }
 
 /* 重置配置 */
