@@ -2,6 +2,7 @@
 
 轻量的涟漪效果库
 
+演示示例 [demo](http://fe1024.com/demos/lipper/examples)
 
 ## 用法
 
