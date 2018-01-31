@@ -37,16 +37,27 @@ function mousedown (e) {
 }
 
 /* 计算涟漪时的样式 */
-function getActiveStyle (args, event) {
-  let target = event.target
+function getActiveStyle (args, event, target) {
+  // let target = event.target
   let duration = args.duration || defaultArgs.duration
   let radius = args.radius || defaultArgs.radius
   let color = args.color || defaultArgs.color
   let rect = target.getBoundingClientRect()
-  return `
-    ${baseStyle}
+  // 从鼠标位置涟漪的样式
+  let coorStyleDefault = `
     top: ${event.y - rect.top}px;
     left: ${event.x - rect.left}px;
+  `
+  // 从容器中心涟漪的样式
+  let coorStyleCenter = `
+    top: 50%;
+    left: 50%;
+  `
+  let coorStyle = args.center === true ? coorStyleCenter : coorStyleDefault
+
+  return `
+    ${baseStyle}
+    ${coorStyle}
     height: ${radius * 2}px;
     width: ${radius * 2}px;
     background-color: ${color};
@@ -58,22 +69,23 @@ function getActiveStyle (args, event) {
 /* 初始化DOM节点 */
 function initDOM (args, event) {
   let duration = args.duration || defaultArgs.duration
-  let computedStyle = getComputedStyle(event.target)
+  let clickedTarget = event.target
+  let target = getTargetContainer(clickedTarget, args.selector)
+  let computedStyle = getComputedStyle(target)
   // TODO 记录原始位置信息，动画结束后需要清除
   // let cssText = event.target.style.cssText
   // let originPosition = 
   // let originOverflow = 
-  let target = event.target
   let selectorList = getSelectorList(args.selector)
   if (selectorList.indexOf(target) > -1) {
     event.stopPropagation()
     setTargetStyle(target, computedStyle)
-    let lipper = getLipperElement(event.target)
+    let lipper = getLipperElement(target)
     setTimeout(function () {
-      let activeStyle = getActiveStyle(args, event)
+      let activeStyle = getActiveStyle(args, event, target)
       lipper.setAttribute('style', activeStyle)
       setTimeout(function () {
-        initLipper(event, lipper, computedStyle, initStyle)
+        initLipper(target, lipper, computedStyle, initStyle)
       }, duration * 1000)
     }, 20)
   }
@@ -87,6 +99,20 @@ function setTargetStyle (target, computedStyle) {
   if (computedStyle.overflow !== 'hidden') {
     target.style.overflow = 'hidden'
   }
+}
+
+function getTargetContainer (target, selector) {
+  let selectorList = getSelectorList(selector)
+  let result = document.body
+  function findParentNode (target) {
+    if (selectorList.indexOf(target) > -1 || target === document.body) {
+      result = target
+    } else {
+      findParentNode(target.parentNode)
+    }
+  }
+  findParentNode(target)
+  return result
 }
 
 function getSelectorList (selector) {
@@ -108,10 +134,10 @@ function getSelectorList (selector) {
 }
 
 /* 重置配置 */
-function initLipper (event, lipper, computedStyle, initStyle) {
+function initLipper (target, lipper, computedStyle, initStyle) {
   lipper.setAttribute('style', initStyle)
-  event.target.removeChild(lipper)
-  setTargetStyle(event.target, computedStyle)
+  target.removeChild(lipper)
+  setTargetStyle(target, computedStyle)
   // event.target.style.position = computedStyle.position || ''
   // event.target.style.overflow = computedStyle.overflow || ''
 }

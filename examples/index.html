@@ -54,17 +54,18 @@
 <body>
   <h2>lipper 轻量的涟漪效果库</h2>
   <div class='container'>
-    <button class='btn'>点击产生涟漪</button>
+    <button class='btn'><span>点击产生涟漪</span></button>
     <div class='content'>
       <h3>用法：指定选择器，支持<code>querySelector</code> 选择器<a target="_blank" href='https://www.npmjs.com/package/lipper'>详情见文档</a></h3>
 
       <pre>
         lipper.init({
-          duration: 1.5,
-          selector: '[data-lipper]',
-          radius: 50,
+          duration: 1.5, // 涟漪持续时间，单位秒
+          selector: ['button', '.container'], // 选择器，字符串或字符串数组
+          radius: 50, // 扩散半径
           zindex: 1000,
-          // color: 'rgba(255, 0, 0, .5)'
+          center: true, // 是否在容器中央涟漪
+          color: 'rgba(255, 0, 0, .5)' // 涟漪的背景色
         })
       </pre>
     </div>
@@ -75,6 +76,7 @@
       selector: ['button', '.container'],
       radius: 50,
       zindex: 1000,
+      // center: true,
       color: 'rgba(255, 0, 0, .5)'
     })
   </script>

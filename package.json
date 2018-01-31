@@ -1,6 +1,6 @@
 {
   "name": "lipper",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "轻量的涟漪效果库",
   "main": "./dist/lipper.min.js",
   "scripts": {

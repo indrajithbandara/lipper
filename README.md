@@ -25,7 +25,9 @@
 
 ```javascript
 import lipper from 'lipper'
-lipper.init({selector: ['button', '.container']})
+lipper.init({
+  selector: ['button', '.container']
+})
 ```
 
 ## 接口方法
@@ -40,9 +42,10 @@ lipper.init({selector: ['button', '.container']})
 
 |参数名|默认值|说明|
 |-----|-----|---|
-|duration|`1.5`|单位秒|
 |selector| 无|必填项，可以为字符串或数组|
-|radius|`50`|涟漪扩散半径|
-|color|`rgba(250, 250, 250, .5)`|涟漪效果背景颜色|
-|zindex|`1000`，|涟漪层的 `z-index`|
+|duration|`1.5`|非必填，单位秒|
+|radius|`50`|非必填，涟漪扩散半径|
+|color|`rgba(250, 250, 250, .5)`|非必填，涟漪效果背景颜色|
+|center|`false`|非必填，是否在容器中央涟漪，默认为`false`|
+|zindex|`1000`，|非必填，涟漪层的 `z-index`|
 
