@@ -1,6 +1,6 @@
 {
   "name": "lipper",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "轻量的涟漪效果库",
   "main": "./dist/lipper.min.js",
   "scripts": {
@@ -10,7 +10,10 @@
     "type": "git",
     "url": "git+https://github.com/tt-ghost/lipper.git"
   },
-  "keywords": ["lipper", "ripple"],
+  "keywords": [
+    "lipper",
+    "ripple"
+  ],
   "author": "@TT <ttghost@126.com>",
   "license": "MIT",
   "bugs": {
@@ -18,6 +21,9 @@
   },
   "homepage": "https://github.com/tt-ghost/lipper#readme",
   "devDependencies": {
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-latest": "^6.24.1",
     "uglifyjs-webpack-plugin": "^1.1.4",
     "webpack": "^3.10.0"
   }
