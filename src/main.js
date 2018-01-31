@@ -9,7 +9,7 @@ let defaultArgs = {
   radius: 50,
   center: false,
   overflow: false,
-  color: 'rgba(250, 250, 250, .5)',
+  color: 'rgba(250, 250, 250, .3)',
   zindex: 1000
 }
 
@@ -81,25 +81,31 @@ function initDOM (args, event) {
   let selectorList = getSelectorList(args.selector)
   if (selectorList.indexOf(target) > -1) {
     event.stopPropagation()
-    setTargetStyle(target, computedStyle)
+    setTargetStyle(target, computedStyle, args)
     let lipper = getLipperElement(target)
     setTimeout(function () {
       let activeStyle = getActiveStyle(args, event, target)
       lipper.setAttribute('style', activeStyle)
       setTimeout(function () {
-        initLipper(target, lipper, computedStyle, initStyle)
+        initLipper(target, lipper, computedStyle, initStyle, args)
       }, duration * 1000)
     }, 20)
   }
 }
 
-function setTargetStyle (target, computedStyle) {
+function setTargetStyle (target, computedStyle, args) {
   const positions = ['relative', 'absolute', 'fixed']
   if (positions.indexOf(computedStyle.position) === -1) {
     target.style.position = 'relative'
   }
-  if (computedStyle.overflow !== 'hidden') {
-    target.style.overflow = 'hidden'
+  if (args.overflow) {
+    if (computedStyle.overflow !== 'visible') {
+      target.style.overflow = 'visible'
+    }
+  } else {
+    if (computedStyle.overflow !== 'hidden') {
+      target.style.overflow = 'hidden'
+    }
   }
 }
 
@@ -122,7 +128,6 @@ function getSelectorList (selector) {
   var sli = Array.prototype.slice;
   if (typeof selector === 'string') {
     selectorList = sli.call(document.querySelectorAll(selector))
-
   } else if (selector instanceof Array) {
     selector.forEach(item => {
       if (typeof item === 'string') {
@@ -136,10 +141,10 @@ function getSelectorList (selector) {
 }
 
 /* 重置配置 */
-function initLipper (target, lipper, computedStyle, initStyle) {
+function initLipper (target, lipper, computedStyle, initStyle, args) {
   lipper.setAttribute('style', initStyle)
   target.removeChild(lipper)
-  setTargetStyle(target, computedStyle)
+  setTargetStyle(target, computedStyle, args)
 }
 
 /* 生成涟漪效果节点并返回 */

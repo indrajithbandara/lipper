@@ -46,6 +46,7 @@ lipper.init({
 |duration|`1.5`|非必填，单位秒|
 |radius|`50`|非必填，涟漪扩散半径|
 |color|`rgba(250, 250, 250, .5)`|非必填，涟漪效果背景颜色|
-|center|`false`|非必填，是否在容器中央涟漪，默认为`false`|
+|center|`false`|非必填，是否在容器中央涟漪|
+|overflow|`false`|非必填，是否在容器外继续涟漪|
 |zindex|`1000`，|非必填，涟漪层的 `z-index`|
 
