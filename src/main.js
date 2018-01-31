@@ -7,6 +7,8 @@ let defaultArgs = {
   duration: 1.5,
   selector: 'data-lipper',
   radius: 50,
+  center: false,
+  overflow: false,
   color: 'rgba(250, 250, 250, .5)',
   zindex: 1000
 }
@@ -138,8 +140,6 @@ function initLipper (target, lipper, computedStyle, initStyle) {
   lipper.setAttribute('style', initStyle)
   target.removeChild(lipper)
   setTargetStyle(target, computedStyle)
-  // event.target.style.position = computedStyle.position || ''
-  // event.target.style.overflow = computedStyle.overflow || ''
 }
 
 /* 生成涟漪效果节点并返回 */
