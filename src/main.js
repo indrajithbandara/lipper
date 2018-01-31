@@ -67,8 +67,7 @@ function initDOM (args, event) {
   let selectorList = getSelectorList(args.selector)
   if (selectorList.indexOf(target) > -1) {
     event.stopPropagation()
-    target.style.position = 'relative'
-    target.style.overflow = 'hidden'
+    setTargetStyle(target, computedStyle)
     let lipper = getLipperElement(event.target)
     setTimeout(function () {
       let activeStyle = getActiveStyle(args, event)
@@ -77,6 +76,16 @@ function initDOM (args, event) {
         initLipper(event, lipper, computedStyle, initStyle)
       }, duration * 1000)
     }, 20)
+  }
+}
+
+function setTargetStyle (target, computedStyle) {
+  const positions = ['relative', 'absolute', 'fixed']
+  if (positions.indexOf(computedStyle.position) === -1) {
+    target.style.position = 'relative'
+  }
+  if (computedStyle.overflow !== 'hidden') {
+    target.style.overflow = 'hidden'
   }
 }
 
@@ -102,8 +111,9 @@ function getSelectorList (selector) {
 function initLipper (event, lipper, computedStyle, initStyle) {
   lipper.setAttribute('style', initStyle)
   event.target.removeChild(lipper)
-  event.target.style.position = computedStyle.position || ''
-  event.target.style.overflow = computedStyle.overflow || ''
+  setTargetStyle(event.target, computedStyle)
+  // event.target.style.position = computedStyle.position || ''
+  // event.target.style.overflow = computedStyle.overflow || ''
 }
 
 /* 生成涟漪效果节点并返回 */
