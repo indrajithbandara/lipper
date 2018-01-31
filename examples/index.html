@@ -49,16 +49,16 @@
 </head>
 <body>
   <h2>lipper 轻量的涟漪效果库</h2>
-  <div data-lipper>
-    <button data-lipper>点击产生涟漪</button>
+  <div class='container'>
+    <button class='btn'>点击产生涟漪</button>
     <div class='content'>
 
-      <h3>用法：给需要产生涟漪效果的元素加上自定义属性<code>data-lipper</code> <a target="_blank" href='https://www.npmjs.com/package/lipper'>详情见文档</a></h3>
+      <h3>用法：指定选择器，支持<code>querySelector</code> 选择器<a target="_blank" href='https://www.npmjs.com/package/lipper'>详情见文档</a></h3>
 
       <pre>
         lipper.init({
           duration: 1.5,
-          dataset: 'lipper',
+          selector: '[data-lipper]',
           radius: 50,
           zindex: 1000,
           // color: 'rgba(255, 0, 0, .5)'
@@ -69,7 +69,7 @@
   <script>
     lipper.init({
       duration: 1.5,
-      dataset: 'lipper',
+      selector: ['button', '.container'],
       radius: 50,
       zindex: 1000,
       color: 'rgba(255, 0, 0, .5)'

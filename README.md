@@ -12,10 +12,10 @@
 <!doctype html>
 <html>
   <body>
-    <button data-lipper>给需要涟漪的元素添加 data-lipper 属性试试</button>
+    <button id='btn'>指定selector选择器，设置哪些容器需要涟漪效果</button>
     <scirpt src='./lipper.min.js'></scirpt>
     <scirpt>
-      lipper.init()
+      lipper.init({selector: ['button', '.container']})
     </scirpt>
   </body>
 </html>
@@ -25,7 +25,7 @@
 
 ```javascript
 import lipper from 'lipper'
-lipper.init()
+lipper.init({selector: ['button', '.container']})
 ```
 
 ## 接口方法
@@ -41,7 +41,7 @@ lipper.init()
 |参数名|默认值|说明|
 |-----|-----|---|
 |duration|`1.5`|单位秒|
-|dataset| `lipper`|给需要添加涟漪效果的节点属性 `data-lipper`|
+|selector| 无|必填项，可以为字符串或数组|
 |radius|`50`|涟漪扩散半径|
 |color|`rgba(250, 250, 250, .5)`|涟漪效果背景颜色|
 |zindex|`1000`，|涟漪层的 `z-index`|

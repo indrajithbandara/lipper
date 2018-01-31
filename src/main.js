@@ -5,7 +5,7 @@
 /* 默认配置 */
 let defaultArgs = {
   duration: 1.5,
-  dataset: 'lipper',
+  selector: 'data-lipper',
   radius: 50,
   color: 'rgba(250, 250, 250, .5)',
   zindex: 1000
@@ -57,7 +57,6 @@ function getActiveStyle (args, event) {
 
 /* 初始化DOM节点 */
 function initDOM (args, event) {
-  let dataset = args.dataset || defaultArgs.dataset
   let duration = args.duration || defaultArgs.duration
   let computedStyle = getComputedStyle(event.target)
   // TODO 记录原始位置信息，动画结束后需要清除
@@ -65,8 +64,8 @@ function initDOM (args, event) {
   // let originPosition = 
   // let originOverflow = 
   let target = event.target
-  let datasetLipper = target.dataset[dataset]
-  if (datasetLipper === '' || datasetLipper === 'true') {
+  let selectorList = getSelectorList(args.selector)
+  if (selectorList.indexOf(target) > -1) {
     event.stopPropagation()
     target.style.position = 'relative'
     target.style.overflow = 'hidden'
@@ -79,6 +78,24 @@ function initDOM (args, event) {
       }, duration * 1000)
     }, 20)
   }
+}
+
+function getSelectorList (selector) {
+  let selectorList = []
+  var sli = Array.prototype.slice;
+  if (typeof selector === 'string') {
+    selectorList = sli.call(document.querySelectorAll(selector))
+
+  } else if (selector instanceof Array) {
+    selector.forEach(item => {
+      if (typeof item === 'string') {
+        let selecteds = document.querySelectorAll(item)
+        let tmpList = sli.call(selecteds)
+        selectorList = selectorList.concat(tmpList)
+      }
+    })
+  }
+  return selectorList
 }
 
 /* 重置配置 */
